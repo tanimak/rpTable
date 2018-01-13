@@ -1,0 +1,20 @@
+<form class="main-form" (ngSubmit)="onSubmit()">
+  <div class="inline-edit">
+    <div class="input-area">
+      <mat-form-field>
+        <input matInput maxLength="140" name="cellValue" [(ngModel)]="cellValue">
+        <!-- <mat-hint align="end">{{cellValue?.length || 0}}/140</mat-hint> -->
+      </mat-form-field>
+    </div>
+    <div class="input-area">
+      <button mat-icon-button type="submit" color="primary">
+        <mat-icon>done</mat-icon>
+      </button>
+    </div>
+    <div class="input-area">
+      <button mat-icon-button type="button" color="primary" (click)="onCancel()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+</form>
