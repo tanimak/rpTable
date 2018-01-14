@@ -2,7 +2,7 @@
   <div class="inline-edit">
     <div class="input-area">
       <mat-form-field>
-        <mat-select [(value)]="cellValue" placeholder="State" (selectionChange)="onSubmit()">
+        <mat-select [(value)]="cellValue" placeholder= "Select" (selectionChange)="onSubmit()">
           <mat-option value="None">None</mat-option>
           <mat-option *ngFor="let state of states" value="{{state}}">{{state}}</mat-option>
         </mat-select>

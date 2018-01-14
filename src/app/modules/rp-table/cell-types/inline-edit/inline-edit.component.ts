@@ -7,7 +7,7 @@ import { MaterialImports } from "./../../../../material.imports";
 @Component({
   selector: "app-inline-edit",
   templateUrl: "./inline-edit.component.html",
-  styleUrls: ["./inline-edit.component.scss"]
+  styleUrls: ["./inline-edit.component.scss","./../rp-cell.component.scss"]
 })
 export class InlineEditComponent extends RpCell implements OnInit {
  
