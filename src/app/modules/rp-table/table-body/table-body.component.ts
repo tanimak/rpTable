@@ -41,7 +41,10 @@ export class TableBodyComponent implements OnInit {
   ];
 
   columns: RpColumnDef<Element>[] = [];
+  paginatorSizes : number[] = [5, 10, 25, 100,150];
 
+  enablePaginator : boolean = true;
+  disableSort: boolean = true;
   public dataSource = new MatTableDataSource<Element>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -60,14 +63,19 @@ export class TableBodyComponent implements OnInit {
   //   this.ELEMENT_DATA.indexOf;
   // }
 
-  update(el: Element, column: string, newValue: string) {
+  update(el: Element, column: string, newValue: any) {
     if (newValue == null) {
       return;
     }
     // copy and mutate
     const copy = this.dataSource.data.slice();
-    console.log(copy)
+    console.log(newValue);
     el[column] = newValue;
+  }
+
+  onResize(re : any, propName : string){
+    console.log(re.target.innerWidth);
+    console.log(propName);
   }
 
   // columns = [
@@ -100,10 +108,10 @@ export class TableBodyComponent implements OnInit {
   /** Column definitions in order */
   displayedColumns: string[] = [];
   ngOnInit() {
-    this.columns.push(new RpColumnDef<Element>("Position", "position"));
-    this.columns.push(new RpColumnDef<Element>("Name", "name"));
-    this.columns.push(new RpColumnDef<Element>("Weight", "weight"));
-    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol"));
+    this.columns.push(new RpColumnDef<Element>("Position", "position","number"));
+    this.columns.push(new RpColumnDef<Element>("Name", "name","string"));
+    this.columns.push(new RpColumnDef<Element>("Weight", "weight","number"));
+    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol","string"));
 
     this.columns.forEach(element => {
       this.displayedColumns.push(element.getPropertyName()); 
@@ -135,10 +143,12 @@ export class RpColumnDef<T> {
 
   public columnDef: string;
   public propertyName: string;
+  public dataType: string;
 
-  public constructor(columnDef: string, propertyName: string) {
+  public constructor(columnDef: string, propertyName: string, dataType :string) {
     this.columnDef = columnDef;
     this.propertyName = propertyName;
+    this.dataType = dataType;
   }
 
   public cell(row: T) {

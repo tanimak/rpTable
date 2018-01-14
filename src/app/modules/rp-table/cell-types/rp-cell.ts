@@ -6,16 +6,16 @@ import { Optional, Host } from "@angular/core";
 export class RpCell implements OnInit {
   /** Overrides the cellValue and provides a reset value when changes are cancelled. */
   @Input()
-  get value(): string {
+  get value(): any {
     return this._value;
   }
-  set value(x: string) {
+  set value(x: any) {
     this.cellValue = this._value = x;
   }
-  private _value = "";
+  private _value : any = "";
 
   /** Form model for the input. */
-  cellValue = "";
+  cellValue : any = "";
 
   constructor(
     @Optional()

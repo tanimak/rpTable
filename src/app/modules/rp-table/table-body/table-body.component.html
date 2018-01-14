@@ -3,29 +3,34 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 </div>
-<div class="example-container mat-elevation-z8" >
+<div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort>
-
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column.propertyName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.columnDef }}</mat-header-cell>
+    <ng-container *ngFor="let column of columns let index x" [matColumnDef]="column.propertyName">
+      <mat-header-cell *matHeaderCellDef [disabled]="disableSort" mat-sort-header (window:resize)="onResize($event)">
+        {{ column.columnDef }}
+      </mat-header-cell>
 
       <mat-cell *matCellDef="let row" [satPopoverAnchorFor]="p" (click)="p.open()">
         <!-- this part can be removed for custom cell renderer -->
-        <ng-container *ngIf="column.cell(row)">
-          {{column.cell(row) }}
+        <ng-container *ngIf="column.cell(row) && column.dataType == 'number'">
+          {{column.cell(row) | number}}
         </ng-container>
-         <!-- this part can be removed for custom cell renderer --> 
+        <ng-container *ngIf="column.cell(row) && column.dataType == 'string'">
+            {{column.cell(row)}}
+          </ng-container>
+        <!-- this part can be removed for custom cell renderer -->
 
-        <sat-popover #p horizontalAlign="start" hasBackdrop  (closed)="update(row,column.propertyName, $event)">
+        <sat-popover #p horizontalAlign="start" verticalAlign="start" hasBackdrop openTransition="0ms ease-out" closeTransition="0ms ease-in"
+          (closed)="update(row,column.propertyName, $event)">
           <app-inline-edit *ngIf="column.propertyName!='name'" [value]="column.cell(row)"></app-inline-edit>
           <app-select *ngIf="column.propertyName=='name'" [value]="column.cell(row)"></app-select>
         </sat-popover>
-      </mat-cell> 
+      </mat-cell>
 
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-</div> 
+  <mat-paginator *ngIf="enablePaginator" [pageSizeOptions]="paginatorSizes"></mat-paginator>
+</div>
