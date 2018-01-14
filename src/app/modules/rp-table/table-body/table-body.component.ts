@@ -16,9 +16,7 @@ import { collectExternalReferences } from "@angular/compiler/src/output/output_a
 })
 export class TableBodyComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
+  
   ELEMENT_DATA: Element[] = [
     { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
     { position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
@@ -45,6 +43,9 @@ export class TableBodyComponent implements OnInit {
   columns: RpColumnDef<Element>[] = [];
 
   public dataSource = new MatTableDataSource<Element>(this.ELEMENT_DATA);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
 
   // public keyEvent(
   //   keyCode: KeyboardEvent,
@@ -67,7 +68,6 @@ export class TableBodyComponent implements OnInit {
     const copy = this.dataSource.data.slice();
     console.log(copy)
     el[column] = newValue;
-   // this.dataSource.update(copy);
   }
 
   // columns = [
@@ -106,7 +106,7 @@ export class TableBodyComponent implements OnInit {
     this.columns.push(new RpColumnDef<Element>("Symbol", "symbol"));
 
     this.columns.forEach(element => {
-      this.displayedColumns.push(element.getColumnDef()); 
+      this.displayedColumns.push(element.getPropertyName()); 
     });
   }
   ngAfterViewInit() {
@@ -144,9 +144,9 @@ export class RpColumnDef<T> {
   public cell(row: T) {
     return row[this.propertyName];
   }
-  
-  public getColumnDef() {
-    return this.columnDef;
+
+  public getPropertyName(){
+    return this.propertyName;
   }
 }
 
