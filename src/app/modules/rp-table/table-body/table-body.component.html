@@ -5,6 +5,18 @@
 </div>
 <div class="example-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    
     <ng-container *ngFor="let column of columns let index x" [matColumnDef]="column.propertyName">
       <mat-header-cell *matHeaderCellDef [disabled]="disableSort" mat-sort-header (window:resize)="onResize($event)">
         {{ column.columnDef }}
@@ -16,8 +28,8 @@
           {{column.cell(row) | number}}
         </ng-container>
         <ng-container *ngIf="column.cell(row) && column.dataType == 'string'">
-            {{column.cell(row)}}
-          </ng-container>
+          {{column.cell(row)}}
+        </ng-container>
         <!-- this part can be removed for custom cell renderer -->
 
         <sat-popover #p horizontalAlign="start" verticalAlign="start" hasBackdrop openTransition="0ms ease-out" closeTransition="0ms ease-in"

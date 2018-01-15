@@ -9,7 +9,6 @@ import { TableFooterComponent } from "./table-footer/table-footer.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { InlineEditComponent } from "./cell-types/inline-edit/inline-edit.component";
 import { SelectComponent } from "./cell-types/select/select.component";
-import { RpCellBackgroundComponent } from './cell-types/rp-cell-background/rp-cell-background.component';
 
 @NgModule({
   imports: [

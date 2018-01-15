@@ -8,6 +8,7 @@ import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Observable } from "rxjs/Observable";
 import { collectExternalReferences } from "@angular/compiler/src/output/output_ast";
+import {SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: "app-table-body",
@@ -42,6 +43,7 @@ export class TableBodyComponent implements OnInit {
 
   columns: RpColumnDef<Element>[] = [];
   paginatorSizes : number[] = [5, 10, 25, 100,150];
+  selection = new SelectionModel<Element>(true, []);
 
   enablePaginator : boolean = true;
   disableSort: boolean = true;
@@ -108,11 +110,13 @@ export class TableBodyComponent implements OnInit {
   /** Column definitions in order */
   displayedColumns: string[] = [];
   ngOnInit() {
-    this.columns.push(new RpColumnDef<Element>("Position", "position","number"));
-    this.columns.push(new RpColumnDef<Element>("Name", "name","string"));
-    this.columns.push(new RpColumnDef<Element>("Weight", "weight","number"));
-    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol","string"));
 
+    this.columns.push(new RpColumnDef<Element>("Position", "position","number",60));
+    this.columns.push(new RpColumnDef<Element>("Name", "name","string",100));
+    this.columns.push(new RpColumnDef<Element>("Weight", "weight","number",100));
+    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol","string",60));
+
+    this.displayedColumns.push("select");
     this.columns.forEach(element => {
       this.displayedColumns.push(element.getPropertyName()); 
     });
@@ -127,6 +131,20 @@ export class TableBodyComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    isAllSelected() {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    }
+  
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    masterToggle() {
+      this.isAllSelected() ?
+          this.selection.clear() :
+          this.dataSource.data.forEach(row => this.selection.select(row));
+    }
   
 }
 
@@ -144,8 +162,9 @@ export class RpColumnDef<T> {
   public columnDef: string;
   public propertyName: string;
   public dataType: string;
+  public width: number;
 
-  public constructor(columnDef: string, propertyName: string, dataType :string) {
+  public constructor(columnDef: string, propertyName: string, dataType :string, width :number) {
     this.columnDef = columnDef;
     this.propertyName = propertyName;
     this.dataType = dataType;
@@ -158,6 +177,8 @@ export class RpColumnDef<T> {
   public getPropertyName(){
     return this.propertyName;
   }
+
+
 }
 
 /**
