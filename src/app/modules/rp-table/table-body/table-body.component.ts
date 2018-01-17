@@ -2,13 +2,13 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
 import { element } from "protractor";
 import { RpTableModule } from "./../rp-table.module";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { MatTableDataSource,MatPaginator, MatSort } from "@angular/material";
+import { MatTableDataSource, MatPaginator, MatSort } from "@angular/material";
 import { MaterialImports } from "./../../../material.imports";
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, style } from "@angular/core";
 import { DataSource } from "@angular/cdk/collections";
 import { Observable } from "rxjs/Observable";
 import { collectExternalReferences } from "@angular/compiler/src/output/output_ast";
-import {SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: "app-table-body",
@@ -17,7 +17,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 })
 export class TableBodyComponent implements OnInit {
 
-  
+
   ELEMENT_DATA: Element[] = [
     { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
     { position: 2, name: "Helium", weight: 4.0026, symbol: "He" },
@@ -42,10 +42,10 @@ export class TableBodyComponent implements OnInit {
   ];
 
   columns: RpColumnDef<Element>[] = [];
-  paginatorSizes : number[] = [5, 10, 25, 100,150];
+  paginatorSizes: number[] = [5, 10, 25, 100, 150];
   selection = new SelectionModel<Element>(true, []);
 
-  enablePaginator : boolean = true;
+  enablePaginator: boolean = true;
   disableSort: boolean = true;
   public dataSource = new MatTableDataSource<Element>(this.ELEMENT_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -71,13 +71,10 @@ export class TableBodyComponent implements OnInit {
     }
     // copy and mutate
     const copy = this.dataSource.data.slice();
-    console.log(newValue);
     el[column] = newValue;
   }
 
-  onResize(re : any, propName : string){
-    console.log(re.target.innerWidth);
-    console.log(propName);
+  onResize(re: any, propName: string) {
   }
 
   // columns = [
@@ -111,41 +108,41 @@ export class TableBodyComponent implements OnInit {
   displayedColumns: string[] = [];
   ngOnInit() {
 
-    this.columns.push(new RpColumnDef<Element>("Position", "position","number",60));
-    this.columns.push(new RpColumnDef<Element>("Name", "name","string",100));
-    this.columns.push(new RpColumnDef<Element>("Weight", "weight","number",100));
-    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol","string",60));
+    this.columns.push(new RpColumnDef<Element>("Position", "position", "number", 10));
+    this.columns.push(new RpColumnDef<Element>("Name", "name", "string", 25));
+    this.columns.push(new RpColumnDef<Element>("Weight", "weight", "number", 20));
+    this.columns.push(new RpColumnDef<Element>("Symbol", "symbol", "string", 13));
 
     this.displayedColumns.push("select");
     this.columns.forEach(element => {
-      this.displayedColumns.push(element.getPropertyName()); 
+      this.displayedColumns.push(element.getPropertyName());
     });
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-  
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-    /** Whether the number of selected elements matches the total number of rows. */
-    isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
-      return numSelected === numRows;
-    }
-  
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    masterToggle() {
-      this.isAllSelected() ?
-          this.selection.clear() :
-          this.dataSource.data.forEach(row => this.selection.select(row));
-    }
-  
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
 }
 
 export interface Element {
@@ -164,20 +161,24 @@ export class RpColumnDef<T> {
   public dataType: string;
   public width: number;
 
-  public constructor(columnDef: string, propertyName: string, dataType :string, width :number) {
+  public constructor(columnDef: string, propertyName: string, dataType: string, width: number) {
     this.columnDef = columnDef;
     this.propertyName = propertyName;
     this.dataType = dataType;
+    this.width = width;
   }
 
   public cell(row: T) {
     return row[this.propertyName];
   }
 
-  public getPropertyName(){
+  public getPropertyName() {
     return this.propertyName;
   }
 
+  public getWidth() {
+    return { 'flex': `0 0 ${this.width}%` };
+  }
 
 }
 
@@ -208,5 +209,5 @@ export class ExampleDataSource extends DataSource<any> {
     return this.dataSubject;
   }
 
-  disconnect() {}
+  disconnect() { }
 }
