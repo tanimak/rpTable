@@ -7,6 +7,7 @@ import { MaterialImports } from './material.imports';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SatPopoverModule } from '@ncstate/sat-popover';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SatPopoverModule } from '@ncstate/sat-popover';
     FormsModule,  
     ReactiveFormsModule, 
     SatPopoverModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

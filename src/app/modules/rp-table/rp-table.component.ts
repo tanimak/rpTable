@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { RPRowElement } from "./rp-row-element";
+import { Component, OnInit, Input } from "@angular/core";
 
 @Component({
   selector: "app-rp-table",
@@ -6,6 +7,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./rp-table.component.css"]
 })
 export class RpTableComponent implements OnInit {
+  @Input("data") tableData: RPRowElement[];
   constructor() {}
 
   ngOnInit() {}

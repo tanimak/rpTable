@@ -32,8 +32,5 @@
 }
 
 .mat-column-select {
-  overflow: visible;
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: 10%;
+  flex: 0 0 20px;
 }
