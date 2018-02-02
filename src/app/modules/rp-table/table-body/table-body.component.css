@@ -26,10 +26,6 @@
   padding: 0 8px;
 } 
 
-.mat-header-row{
-  padding: 10px;
-  min-height: 36px;
-}
 
 .mat-column-select {
   flex: 0 0 20px;

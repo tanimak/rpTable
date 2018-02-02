@@ -7,7 +7,7 @@
   <mat-table #table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="select">
-      <mat-header-cell *matHeaderCellDef>
+      <mat-header-cell  *matHeaderCellDef  >
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
         </mat-checkbox>
       </mat-header-cell>
@@ -18,31 +18,32 @@
     </ng-container>
 
     <ng-container *ngFor="let column of columns let index x" [matColumnDef]="column.propertyName">
-      <mat-header-cell [ngStyle]="column.getWidth()" *matHeaderCellDef [disabled]="disableSort" mat-sort-header (window:resize)="onResize($event)">
-        {{ column.columnDef }}
+      
+      <mat-header-cell [ngStyle]="column.getWidth()" *matHeaderCellDef [disabled]="!tableConfigs.isEnableSort()" mat-sort-header (window:resize)="onResize($event)">
+        {{ column.getColumnHeader(tableConfigs.isEnableHeaders()) }}
       </mat-header-cell>
-
+    
       <mat-cell [ngStyle]="column.getWidth()" *matCellDef="let row" [satPopoverAnchorFor]="p" (click)="p.open()">
         <!-- this part can be removed for custom cell renderer -->
         <ng-container *ngIf="column.cell(row) && column.dataType == 'number'">
-          {{column.cell(row) | number}}
+          {{column.cell(row) | number}} 
         </ng-container>
         <ng-container *ngIf="column.cell(row) && column.dataType == 'string'">
-          {{column.cell(row)}}
+          {{column.cell(row)}} 
         </ng-container>
         <!-- this part can be removed for custom cell renderer -->
 
         <sat-popover #p horizontalAlign="start" verticalAlign="start" hasBackdrop openTransition="0ms ease-out" closeTransition="0ms ease-in"
           (closed)="update(row,column.propertyName, $event)">
-          <app-inline-edit *ngIf="column.propertyName!='name'" [value]="column.cell(row)"></app-inline-edit>
-          <app-select *ngIf="column.propertyName=='name'" [value]="column.cell(row)"></app-select>
+          <app-inline-edit *ngIf="column.getCellDef().$cellType==cellType.InlineEdit" [value]="column.cell(row)"></app-inline-edit>
+          <app-select *ngIf="column.getCellDef().$cellType==cellType.Select" [value]="column.cell(row)" [selections] = "column.getCellDef().$selections"></app-select>
         </sat-popover>
       </mat-cell>
 
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row [ngStyle]="getHeaderStyle()" *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <mat-paginator *ngIf="enablePaginator" [pageSizeOptions]="paginatorSizes"></mat-paginator>
+  <mat-paginator *ngIf="tableConfigs.isEnablePaginator()" [pageSizeOptions]="tableConfigs.getPaginatorConfigs()"></mat-paginator>
 </div>

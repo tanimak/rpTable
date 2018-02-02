@@ -1,3 +1,4 @@
+import { RpTableConfigs } from "./../rp-table-configs";
 import { RPRowElement } from "./../rp-row-element";
 import { RpColumnDef } from "./../rp-column-def";
 import { CdkScrollable } from "@angular/cdk/scrolling";
@@ -10,6 +11,7 @@ import { DataSource } from "@angular/cdk/collections";
 import { Observable } from "rxjs/Observable";
 import { collectExternalReferences } from "@angular/compiler/src/output/output_ast";
 import { SelectionModel } from "@angular/cdk/collections";
+import { CellType } from "../cell-type.enum";
 
 @Component({
   selector: "app-table-body",
@@ -18,13 +20,16 @@ import { SelectionModel } from "@angular/cdk/collections";
 })
 export class TableBodyComponent implements OnInit {
   @Input("data") ELEMENT_DATA: RPRowElement[];
+  @Input("columns") columns: RpColumnDef<RPRowElement>[];
+  @Input("configs") tableConfigs: RpTableConfigs;
 
-  columns: RpColumnDef<RPRowElement>[] = [];
-  paginatorSizes: number[] = [5, 10, 25, 100, 150];
-  enablePaginator: boolean = true;
-  disableSort: boolean = false;
-  enableSelect: boolean = false;
+  cellType = CellType;
 
+  paginatorSizes: number[];
+  enablePaginator: boolean;
+  disableSort: boolean;
+  enableSelect: boolean;
+  
   public dataSource;
   selection = new SelectionModel<RPRowElement>(true, []);
 
@@ -35,26 +40,13 @@ export class TableBodyComponent implements OnInit {
   displayedColumns: string[] = [];
   ngOnInit() {
     this.dataSource = new MatTableDataSource<RPRowElement>(this.ELEMENT_DATA);
-
-    //console.log(this.dataSource);
-
-    this.columns.push(
-      new RpColumnDef<RPRowElement>("Position", "position", "number", 25)
-    );
-    this.columns.push(
-      new RpColumnDef<RPRowElement>("Name", "name", "string", 25)
-    );
-    this.columns.push(
-      new RpColumnDef<RPRowElement>("Weight", "weight", "number", 20)
-    );
-    this.columns.push(
-      new RpColumnDef<RPRowElement>("Symbol", "symbol", "string", 20)
-    );
-
-    this.displayedColumns.push("select");
+    if (this.tableConfigs.isEnableSelect()) {
+      this.displayedColumns.push("select");
+    }
     this.columns.forEach(element => {
       this.displayedColumns.push(element.getPropertyName());
     });
+    console.log(this.tableConfigs.isEnableBoarders);
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -72,6 +64,21 @@ export class TableBodyComponent implements OnInit {
 
   onResize(re: any, propName: string) {}
 
+  getHeaderStyle() {
+    let minHeight = 0;
+    let maxHeight = 0;
+    let padding = 0;
+    if (this.tableConfigs.isEnableHeaders()) {
+      padding = 4;
+      minHeight = 36;
+      maxHeight = 36;
+    }
+    return {
+      "padding": `${padding}px`,
+      "min-height": `${minHeight}px`,
+      "max-height": `${maxHeight}px`
+    };
+  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches

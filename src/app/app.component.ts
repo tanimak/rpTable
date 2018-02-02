@@ -1,12 +1,17 @@
+import { RpColumnDef } from "./modules/rp-table/rp-column-def";
+import { RPRowElement } from "./modules/rp-table/rp-row-element";
 import { PeriodicElements } from "./periodic-elements";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { RpTableConfigs } from "./modules/rp-table/rp-table-configs";
+import { RpCellDef } from "./modules/rp-table/rp-cell-def";
+import { CellType } from "./modules/rp-table/cell-type.enum";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = "app";
   ELEMENT_DATA: PeriodicElements[] = [
     { position: 1, name: "Hydrogen", weight: 1.0079, symbol: "H" },
@@ -30,4 +35,91 @@ export class AppComponent {
     { position: 19, name: "Potassium", weight: 39.0983, symbol: "K" },
     { position: 20, name: "Calcium", weight: 40.078, symbol: "Ca" }
   ];
+
+  states = [
+    "Alabama",
+    "Alaska",
+    "Arizona",
+    "Arkansas",
+    "California",
+    "Colorado",
+    "Connecticut",
+    "Delaware",
+    "Florida",
+    "Georgia",
+    "Hawaii",
+    "Idaho",
+    "Illinois",
+    "Indiana",
+    "Iowa",
+    "Kansas",
+    "Kentucky",
+    "Louisiana",
+    "Maine",
+    "Maryland",
+    "Massachusetts",
+    "Michigan",
+    "Minnesota",
+    "Mississippi",
+    "Missouri",
+    "Montana",
+    "Nebraska",
+    "Nevada",
+    "New Hampshire",
+    "New Jersey",
+    "New Mexico",
+    "New York",
+    "North Carolina",
+    "North Dakota",
+    "Ohio",
+    "Oklahoma",
+    "Oregon",
+    "Pennsylvania",
+    "Rhode Island",
+    "South Carolina",
+    "South Dakota",
+    "Tennessee",
+    "Texas",
+    "Utah",
+    "Vermont",
+    "Virginia",
+    "Washington",
+    "West Virginia",
+    "Wisconsin",
+    "Wyoming"
+  ];
+
+  questions = [
+    "Valid",
+    "Invalid",
+    "Legendary",
+    "Are You Ok? There has been severl cases where we cannot keep the touch of your confidence. We are extremely sorry. Thanks."
+  ];
+  columns: RpColumnDef<RPRowElement>[] = [];
+
+  tableConfigs: RpTableConfigs;
+
+  ngOnInit() {
+    this.columns.push(
+      new RpColumnDef<RPRowElement>("Position", "position", "number", 25, new RpCellDef(CellType.InlineEdit,[]))
+    );
+    this.columns.push(
+      new RpColumnDef<RPRowElement>("Name", "name", "string", 25, new RpCellDef(CellType.Select,this.questions))
+    );
+    this.columns.push(
+      new RpColumnDef<RPRowElement>("Weight", "weight", "number", 20,new RpCellDef(CellType.InlineEdit,[]))
+    );
+    this.columns.push(
+      new RpColumnDef<RPRowElement>("Symbol", "symbol", "string", 20,new RpCellDef(CellType.None,[]))
+    );
+    this.tableConfigs = new RpTableConfigs(
+      true,
+      true,
+      false,
+      false,
+      true,
+      [5, 10, 15, 20],
+      true
+    );
+  }
 }
