@@ -1,0 +1,1 @@
+export * from './src/app/modules/rp-table/rp-table.module'

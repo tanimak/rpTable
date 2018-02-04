@@ -4,8 +4,9 @@ export class RpTableConfigs {
   private enablePaginator: boolean;
   private enableTitle: boolean;
   private enableHeaders: boolean;
+  private enableFilter: boolean;
   private paginatorConfigs: number[];
-  private enableBoarders: true;
+  private enableBoarders: boolean;
 
   constructor(
     $enableSelect : boolean,
@@ -13,14 +14,16 @@ export class RpTableConfigs {
     $enablePaginator: boolean,
     $enableTitle: boolean,
     $enableHeaders: boolean,
+    $enableFilter: boolean,
     $paginatorConfigs: number[],
-    $enableBoarders: true
+    $enableBoarders: boolean
   ) {
     this.enableSelect = $enableSelect;
     this.enableSort = $enableSort;
     this.enablePaginator = $enablePaginator;
     this.enableTitle = $enableTitle;
     this.enableHeaders = $enableHeaders;
+    this.enableFilter = $enableFilter;
     this.paginatorConfigs = $paginatorConfigs;
     this.enableBoarders = $enableBoarders;
   }
@@ -49,7 +52,11 @@ export class RpTableConfigs {
     return this.paginatorConfigs;
   }
 
-  public isEnableBoarders(): true {
+  public isEnableBoarders(): boolean {
     return this.enableBoarders;
+  }
+
+  public isEnableFilter(): boolean {
+    return this.enableFilter;
   }
 }
