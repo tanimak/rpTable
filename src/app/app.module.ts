@@ -1,4 +1,4 @@
-import { InlineEditComponent } from './modules/rp-table/cell-types/inline-edit/inline-edit.component';
+import { RpFormModule } from './modules/rp-form/rp-form.module';
 import { RpTableModule } from './modules/rp-table/rp-table.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -22,6 +22,7 @@ import {HttpClientModule} from '@angular/common/http';
     ReactiveFormsModule, 
     SatPopoverModule,
     HttpClientModule,
+    RpFormModule
   ],
   providers: [],
   bootstrap: [AppComponent]

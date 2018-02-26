@@ -1,1 +1,3 @@
-export interface RPRowElement {}
+export interface RPRowElement {
+    status : number;
+}
