@@ -1,28 +1,29 @@
-<div>
-  <form>
-    <div>
+<div class="container">
+  <h1>Hero Form</h1>
+  {{diagnostic}}
+  <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <mat-form-field>
+          <input matInput placeholder="Position" type="text" class="form-control" id="id" required  [(ngModel)] = "element.position" name="id" #spy>
+      </mat-form-field>
+      {{spy.className}} 
+        
         <mat-form-field>
-      <label for="status">Status</label>
-      <input type="text" matInput  id="status" required> 
+      <input matInput placeholder="Name" type="text" class="form-control" id="name" required  [(ngModel)] = "element.name" name="name">
+      </mat-form-field>
+   
+    <mat-form-field>
+        <input matInput placeholder="Weight" type="text" class="form-control" id="weight" required  [(ngModel)] = "element.weight" name="weight">
         </mat-form-field>
-    </div>
-    <!-- <div>
-      <label for="name">Name</label>
-      <input type="text" class="form-control" id="name" required> 
-    </div>
-    <div>
-      <label for="position">Position</label>
-      <input type="text" class="form-control" id="position" required> 
-    </div>
-    <div>
-      <label for="weight">Weight</label>
-      <input type="text" class="form-control" id="weight" required> 
-    </div>
-    <div>
-      <label for="symbol">Symbol</label>
-      <input type="text" class="form-control" id="symbol" required> 
-    </div> -->
-    <button mat-button type="submit" >Submit</button>
+     
+      <mat-form-field>
+      <mat-select placeholder="Symbol" class="form-control" id="symbol" required  [(ngModel)] = "element.symbol" name = "symbol">
+        <mat-option *ngFor="let pow of states" [value]="pow">{{pow}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-button type="submit"  [disabled]="!heroForm.form.valid">Submit</button>
+    {{submitted}}
+
   </form>
 </div>
 

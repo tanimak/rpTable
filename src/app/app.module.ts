@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SatPopoverModule } from '@ncstate/sat-popover';
 import {HttpClientModule} from '@angular/common/http';
+import { TestServiceService } from './test-service.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import {HttpClientModule} from '@angular/common/http';
     HttpClientModule,
     RpFormModule
   ],
-  providers: [],
+  providers: [TestServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
