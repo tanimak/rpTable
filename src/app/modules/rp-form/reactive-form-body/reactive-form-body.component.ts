@@ -7,6 +7,10 @@ import {
   Validators,
   FormArray
 } from "@angular/forms";
+import { RpColumnDef } from "../../rp-table/rp-column-def";
+import { RPRowElement } from "../../rp-table/rp-row-element";
+import { RpCellDef } from "../../rp-table/rp-cell-def";
+import { CellType } from "../../rp-table/cell-type.enum";
 
 @Component({
   selector: "app-reactive-form-body",
@@ -82,18 +86,22 @@ export class ReactiveFormBodyComponent implements OnInit {
     private heroService: TestServiceService
   ) {
     this.createForm();
-    this.logNameChange();
+    //this.logNameChange();
+    
   }
 
-  createForm() {
-    this.heroForm = this.fb.group({
-      name: ["", Validators.required],
-      secretLairs: this.fb.array([]), // <-- a FormGroup with a new address
-      power: "",
-      sidekick: ""
-    });
-  }
+  // createForm() {
+  //   this.heroForm = this.fb.group({
+  //     name: ["", Validators.required],
+  //     secretLairs: this.fb.array([]), // <-- a FormGroup with a new address
+  //     power: "",
+  //     sidekick: ""
+  //   });
+  // }
 
+  createForm(){
+    this.heroForm = this.fb.group(new RpColumnDef<RPRowElement>("Name", "name", "string", 25, new RpCellDef(CellType.Select,this.states)));
+ }
   ngOnChanges() {
     this.heroForm.reset({
       name: this.hero.name,
@@ -101,31 +109,51 @@ export class ReactiveFormBodyComponent implements OnInit {
     });
   }
 
-  setAddresses(addresses: Address[]) {
-    const addressFGs = addresses.map(address => this.fb.group(address));
-    const addressFormArray = this.fb.array(addressFGs);
-    this.heroForm.setControl("secretLairs", addressFormArray);
-  }
+  evilResponseProps = Object.keys(new RpColumnDef<RPRowElement>("Name", "name", "string", 25, new RpCellDef(CellType.Select,this.states)));
+// Step 2. Create an empty array.
+goodResponse = [];
+// Step 3. Iterate throw all keys.
+
+
+
+  
+
+// for (evilResponseProps) { 
+//     this.goodResponse.push(evilResponseProps[prop]);
+// }
+
+  // setAddresses(addresses: Address[]) {
+  //   const addressFGs = addresses.map(address => this.fb.group(address));
+  //   const addressFormArray = this.fb.array(addressFGs);
+  //   this.heroForm.setControl("secretLairs", addressFormArray);
+  // }
 
   get secretLairs(): FormArray {
     return this.heroForm.get("secretLairs") as FormArray;
   }
 
   addLair() {
-    this.secretLairs.push(this.fb.group(new Address()));
+    //this.secretLairs.push(this.fb.group(new Address()));
+    let evilResponseProps = Object.values(new RpColumnDef<RPRowElement>("Name", "name", "string", 25, new RpCellDef(CellType.Select,this.states)));
+    console.log(evilResponseProps);
+    for (let prop of evilResponseProps) { 
+      console.log(prop);
+      this.goodResponse.push(prop);
   }
-
+  console.log(this.goodResponse);
+  }
+ 
   test() {
     console.log("Alright You got this");
   }
 
-  nameChangeLog: string[] = [];
-  logNameChange() {
-    const nameControl = this.heroForm.get("name");
-    nameControl.valueChanges.forEach((value: string) =>
-      this.nameChangeLog.push(value)
-    );
-  }
+  // nameChangeLog: string[] = [];
+  // logNameChange() {
+  //   const nameControl = this.heroForm.get("name");
+  //   nameControl.valueChanges.forEach((value: string) =>
+  //     this.nameChangeLog.push(value)
+  //   );
+  // }
 
   onSubmit() {
     console.log("Saving");
@@ -159,7 +187,7 @@ export class ReactiveFormBodyComponent implements OnInit {
 
   ngOnInit() {}
 }
-
+//stub classes are provided externally
 export class Hero {
   id = 0;
   name = "";

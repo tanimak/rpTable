@@ -1,17 +1,17 @@
-<h2>Hero Detail</h2>
-<h4>Name change log</h4>
-<div *ngFor="let name of nameChangeLog">{{name}}</div>
-<h3><i>A FormGroup with multiple FormControls</i></h3>
+<!-- <h2>Common Form</h2>
+<h4>{{fb.group}}</h4> -->
+<!--div *ngFor="let name of nameChangeLog">{{name}}</div-->
+<!-- <h3><i>A FormGroup with multiple FormControls</i></h3>
 <form [formGroup]="heroForm" novalidate>
   <div class="form-group">
     <label class="center-block">Name:
-      <input class="form-control" formControlName="name">
+      <input class="form-control" formControlName="propertyName">
     </label>
   </div>
   <div formArrayName="secretLairs" class="well well-lg">
-    <div *ngFor="let address of secretLairs.controls; let i=index" [formGroupName]="i" >
+    <div *ngFor="let address of secretLairs.controls; let i=index" [formGroupName]="i" > -->
       <!-- The repeated address template -->
-      <h4>Address #{{i + 1}}</h4>
+      <!-- <h4>Address #{{i + 1}}</h4>
       <div style="margin-left: 1em;">
         <div class="form-group">
           <label class="center-block">Street:
@@ -36,9 +36,9 @@
           </label>
         </div>
       </div>
-      <br>
+      <br> -->
       <!-- End of the repeated address template -->
-    </div>
+    <!-- </div>
   </div>
   <button (click)="addLair()" type="button">Add a Secret Lair</button>
 
@@ -64,7 +64,11 @@
       <input type="checkbox" formControlName="sidekick">I have a sidekick.
     </label>
   </div>
-</form>
-
-
+</form> -->
+<button (click)="addLair()" type="button">Add a Secret Lair</button>
+<div *ngFor="let response of goodResponse">
+  <h4>{{response}}</h4>
+  <app-rp-form-element></app-rp-form-element>
+</div>
+ 
 <p>Form value: {{ heroForm.value | json }}</p>

@@ -1,0 +1,12 @@
+[1208/174844.713:WARNING:minidump_to_upload_parameters.cc(66)] duplicate annotation name plat, discarding value Win64
+[1208/174844.898:WARNING:minidump_to_upload_parameters.cc(66)] duplicate annotation name prod, discarding value OperaDesktop
+[1208/174844.898:WARNING:minidump_to_upload_parameters.cc(66)] duplicate annotation name ver, discarding value 56.0.3051.116
+[1208/174844.898:WARNING:minidump_to_upload_parameters.cc(66)] duplicate annotation name channel, discarding value Stable
+[1208/174844.898:WARNING:minidump_to_upload_parameters.cc(66)] duplicate annotation name ptype, discarding value gpu-process
+[1208/174920.919:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1208/174920.919:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1208/174920.919:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1208/174920.919:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1208/174920.919:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1208/174920.919:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1208/174921.264:ERROR:exception_snapshot_win.cc(88)] thread ID 10576 not found in process
